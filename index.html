@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fico — Cozinha do Mediterrâneo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --wine: #3B0A14;
+    --wine-deep: #250509;
+    --gold: #C9A227;
+    --cream: #F2E9DC;
+    --olive: #6B7C4B;
+    --charcoal: #1A1210;
+    --line: rgba(242,233,220,0.16);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--wine-deep);
+    color:var(--cream);
+    font-family:'Work Sans', sans-serif;
+    font-weight:400;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{display:block;max-width:100%;}
+
+  /* Focus visibility */
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--gold);
+    outline-offset:3px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:50;
+    padding:22px 0;
+    background:linear-gradient(to bottom, rgba(37,5,9,0.92), rgba(37,5,9,0));
+    transition:padding .3s ease, background .3s ease;
+  }
+  header.scrolled{
+    padding:14px 0;
+    background:rgba(37,5,9,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .logo{
+    font-family:'Fraunces', serif;
+    font-size:1.5rem;
+    font-style:italic;
+    font-weight:500;
+  }
+  nav ul{
+    list-style:none;
+    display:flex;
+    gap:36px;
+  }
+  nav a{
+    font-size:0.92rem;
+    color:var(--cream);
+    opacity:0.85;
+    position:relative;
+    padding-bottom:4px;
+  }
+  nav a::after{
+    content:'';
+    position:absolute;
+    left:0; bottom:0;
+    width:0%;
+    height:1px;
+    background:var(--gold);
+    transition:width .25s ease;
+  }
+  nav a:hover::after{width:100%;}
+  .nav-cta{
+    border:1px solid var(--gold);
+    color:var(--gold) !important;
+    padding:9px 20px;
+    border-radius:2px;
+    font-size:0.88rem;
+    opacity:1 !important;
+  }
+  .nav-cta:hover{background:var(--gold); color:var(--wine-deep) !important;}
+  .nav-cta::after{display:none;}
+  .menu-toggle{display:none;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    align-items:flex-end;
+    padding-bottom:90px;
+  }
+  .hero-bg{
+    position:absolute;
+    inset:0;
+    background:
+      linear-gradient(180deg, rgba(37,5,9,0.35) 0%, rgba(37,5,9,0.55) 55%, var(--wine-deep) 100%),
+      url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1600&auto=format&fit=crop') center/cover;
+    filter:saturate(0.75) sepia(0.15);
+  }
+  .hero-content{
+    position:relative;
+    z-index:2;
+    width:100%;
+  }
+  .hero-eyebrow{
+    font-size:0.95rem;
+    color:var(--gold);
+    font-style:italic;
+    font-family:'Fraunces', serif;
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(3rem, 8vw, 6.2rem);
+    line-height:0.98;
+    max-width:11ch;
+  }
+  .hero-sub{
+    margin-top:26px;
+    max-width:38ch;
+    font-size:1.08rem;
+    color:rgba(242,233,220,0.82);
+    font-weight:300;
+  }
+  .hero-meta{
+    margin-top:48px;
+    display:flex;
+    gap:56px;
+    border-top:1px solid var(--line);
+    padding-top:22px;
+    max-width:640px;
+  }
+  .hero-meta div span{
+    display:block;
+  }
+  .hero-meta .k{
+    font-size:0.78rem;
+    color:rgba(242,233,220,0.55);
+    margin-bottom:4px;
+  }
+  .hero-meta .v{
+    font-family:'Fraunces', serif;
+    font-size:1.05rem;
+  }
+
+  /* ---------- SECTION GENERIC ---------- */
+  section{
+    padding:130px 0;
+  }
+  .section-head{
+    display:grid;
+    grid-template-columns: 1.1fr 1.4fr;
+    gap:60px;
+    margin-bottom:70px;
+    align-items:end;
+  }
+  .section-tag{
+    font-style:italic;
+    font-family:'Fraunces', serif;
+    color:var(--gold);
+    font-size:1rem;
+    margin-bottom:14px;
+  }
+  .section-head h2{
+    font-size:clamp(2.1rem, 4vw, 3rem);
+    line-height:1.08;
+  }
+  .section-head p{
+    color:rgba(242,233,220,0.75);
+    font-weight:300;
+    font-size:1.02rem;
+    max-width:46ch;
+  }
+
+  /* ---------- PHILOSOPHY ---------- */
+  .philosophy{
+    background:var(--wine-deep);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .phil-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:0;
+  }
+  .phil-card{
+    padding:0 40px 0 0;
+    border-right:1px solid var(--line);
+    cursor:pointer;
+    transition:all .3s ease;
+  }
+  .phil-card:hover{
+    background:rgba(201,162,39,0.08);
+    padding-left:20px;
+  }
+  .phil-card:last-child{border-right:none; padding-right:0;}
+  .phil-card:not(:first-child){padding-left:40px;}
+  .phil-num{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    color:var(--gold);
+    font-size:0.95rem;
+    margin-bottom:20px;
+    display:block;
+  }
+  .phil-card h3{
+    font-size:1.5rem;
+    margin-bottom:14px;
+    font-weight:500;
+  }
+  .phil-card p{
+    color:rgba(242,233,220,0.72);
+    font-weight:300;
+    font-size:0.98rem;
+  }
+
+  /* ---------- MENU ---------- */
+  .menu-section{background:var(--wine-deep);}
+  .menu-columns{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0 70px;
+  }
+  .menu-group{margin-bottom:52px;}
+  .menu-group-title{
+    font-style:italic;
+    color:var(--gold);
+    font-size:1.15rem;
+    margin-bottom:22px;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--line);
+  }
+  .dish{
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    padding:15px 0;
+    border-bottom:1px dashed rgba(242,233,220,0.14);
+    cursor:pointer;
+    transition:all .2s ease;
+  }
+  .dish:hover{
+    background:rgba(201,162,39,0.06);
+    padding-left:10px;
+  }
+  .dish:last-child{border-bottom:none;}
+  .dish-name{font-size:1.02rem; font-weight:500;}
+  .dish-desc{
+    color:rgba(242,233,220,0.6);
+    font-size:0.86rem;
+    font-weight:300;
+    margin-top:4px;
+    max-width:34ch;
+  }
+  .dish-price{
+    font-family:'Fraunces', serif;
+    white-space:nowrap;
+    color:var(--gold);
+    font-size:1rem;
+  }
+
+  /* ---------- GALLERY STRIP ---------- */
+  .gallery{
+    display:grid;
+    grid-template-columns: 1.3fr 1fr 1fr;
+    gap:14px;
+    padding:0 32px 130px;
+  }
+  .gallery img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    filter:saturate(0.8) sepia(0.1);
+    cursor:pointer;
+    transition:filter .3s ease, transform .3s ease;
+  }
+  .gallery img:hover{
+    filter:saturate(1) sepia(0);
+    transform:scale(1.02);
+  }
+  .gallery .tall{grid-row:span 2; height:100%; min-height:520px;}
+  .gallery .short{height:250px;}
+
+  /* ---------- RESERVE ---------- */
+  .reserve{
+    background:var(--cream);
+    color:var(--wine-deep);
+    padding:130px 0;
+  }
+  .reserve .wrap{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:80px;
+    align-items:center;
+  }
+  .reserve h2{
+    font-size:clamp(2.2rem,4vw,3.4rem);
+    line-height:1.05;
+    color:var(--wine-deep);
+  }
+  .reserve p{
+    margin-top:20px;
+    color:rgba(37,5,9,0.7);
+    font-weight:300;
+    max-width:42ch;
+  }
+  form{display:flex; flex-direction:column; gap:18px;}
+  .form-row{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  label{
+    font-size:0.78rem;
+    text-transform:none;
+    color:rgba(37,5,9,0.55);
+    margin-bottom:6px;
+    display:block;
+  }
+  input, select{
+    width:100%;
+    background:transparent;
+    border:none;
+    border-bottom:1px solid rgba(37,5,9,0.3);
+    padding:10px 0;
+    font-family:'Work Sans', sans-serif;
+    font-size:1rem;
+    color:var(--wine-deep);
+  }
+  input:focus, select:focus{
+    outline:none;
+    border-bottom-color:var(--wine-deep);
+  }
+  .submit-btn{
+    margin-top:14px;
+    background:var(--wine-deep);
+    color:var(--cream);
+    border:none;
+    padding:16px 30px;
+    font-family:'Work Sans', sans-serif;
+    font-size:0.95rem;
+    cursor:pointer;
+    align-self:flex-start;
+    border-radius:2px;
+    transition:background .2s ease, transform .2s ease;
+  }
+  .submit-btn:hover{background:var(--olive);}
+  .form-note{
+    font-size:0.82rem;
+    color:rgba(37,5,9,0.55);
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:var(--wine-deep);
+    padding:70px 0 34px;
+  }
+  .foot-grid{
+    display:grid;
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap:40px;
+    padding-bottom:50px;
+    border-bottom:1px solid var(--line);
+  }
+  .foot-grid h4{
+    font-size:0.82rem;
+    color:rgba(242,233,220,0.55);
+    margin-bottom:16px;
+    font-weight:400;
+  }
+  .foot-grid p, .foot-grid a{
+    font-size:0.95rem;
+    color:rgba(242,233,220,0.85);
+    display:block;
+    margin-bottom:8px;
+  }
+  .foot-logo{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:1.7rem;
+    margin-bottom:16px;
+  }
+  .foot-bottom{
+    display:flex;
+    justify-content:space-between;
+    padding-top:26px;
+    font-size:0.8rem;
+    color:rgba(242,233,220,0.45);
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 860px){
+    .wrap{padding:0 22px;}
+    nav ul{
+      position:fixed;
+      top:0; right:0;
+      height:100vh;
+      width:72%;
+      background:var(--wine-deep);
+      flex-direction:column;
+      justify-content:center;
+      align-items:flex-start;
+      padding:0 40px;
+      gap:28px;
+      transform:translateX(100%);
+      transition:transform .3s ease;
+      border-left:1px solid var(--line);
+    }
+    nav ul.open{transform:translateX(0);}
+    .menu-toggle{
+      display:block;
+      background:none;
+      border:none;
+      color:var(--cream);
+      font-size:1.6rem;
+      cursor:pointer;
+    }
+    .section-head, .reserve .wrap, .phil-grid, .menu-columns, .form-row, .gallery{
+      grid-template-columns:1fr;
+    }
+    .phil-card{border-right:none; border-bottom:1px solid var(--line); padding:0 0 30px 0 !important; margin-bottom:30px;}
+    .phil-card:last-child{border-bottom:none;}
+    .gallery{gap:14px;}
+    .gallery .tall{min-height:280px;}
+    .hero-meta{flex-wrap:wrap; gap:28px 40px;}
+  }
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <div class="wrap nav-row">
+    <a href="#" class="logo">Fico</a>
+    <nav>
+      <ul id="navList">
+        <li><a href="#filosofia">Filosofia</a></li>
+        <li><a href="#menu">Cardápio</a></li>
+        <li><a href="#galeria">Galeria</a></li>
+        <li><a href="#reservar" class="nav-cta">Reservar mesa</a></li>
+      </ul>
+    </nav>
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">☰</button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content wrap">
+    <a href="tel:+551130405060" class="hero-eyebrow">Rua dos Figos, 214 — Vila Madalena</a>
+    <h1>A mesa é onde o Mediterrâneo desacelera.</h1>
+    <p class="hero-sub">Pratos pequenos, azeite de verdade e uma carta de vinhos que muda com a estação. Aberto todas as noites para quem gosta de comer devagar.</p>
+    <div class="hero-meta">
+      <div>
+        <span class="k">Funcionamento</span>
+        <span class="v">Ter–Dom, 18h às 00h</span>
+      </div>
+      <div>
+        <span class="k">Chef</span>
+        <span class="v">Marina Ferro</span>
+      </div>
+      <div>
+        <span class="k">Ambiente</span>
+        <span class="v">40 lugares, balcão aberto</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="philosophy" id="filosofia">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="section-tag">A casa</p>
+        <h2>Cozinha de mercado, sem pressa</h2>
+      </div>
+      <p>Fico nasceu da vontade de cozinhar como se cozinha em casa numa vila à beira-mar: com o que chegou fresco naquele dia, muito azeite e pouca pressa para servir.</p>
+    </div>
+    <div class="phil-grid">
+      <a href="#" class="phil-card">
+        <span class="phil-num">Origem</span>
+        <h3>Ingrediente antes da técnica</h3>
+        <p>Compramos direto de oito produtores da região toda semana e montamos o cardápio a partir do que colheram, não o contrário.</p>
+      </a>
+      <a href="#" class="phil-card">
+        <span class="phil-num">Fogo</span>
+        <h3>Tudo passa pela brasa</h3>
+        <p>Um único forno a lenha de oliveira aquece a casa inteira — pães, legumes e peixes saem dele, em temperaturas diferentes ao longo da noite.</p>
+      </a>
+      <a href="#" class="phil-card">
+        <span class="phil-num">Mesa</span>
+        <h3>Feito para dividir</h3>
+        <p>Os pratos chegam para o centro da mesa. Peça em dupla, prove tudo, sirva-se de novo — é assim que gostamos de comer.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="menu-section" id="menu">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="section-tag">Cardápio</p>
+        <h2>Uma seleção da temporada</h2>
+      </div>
+      <p>O cardápio completo muda a cada três semanas. Aqui estão alguns dos pratos que estão na mesa agora.</p>
+    </div>
+
+    <div class="menu-columns">
+      <div>
+        <div class="menu-group">
+          <div class="menu-group-title">Para começar</div>
+          <a href="#" class="dish">
+            <div>
+              <div class="dish-name">Pão de fermentação natural</div>
+              <div class="dish-desc">Manteiga de azeitona preta e flor de sal</div>
+            </div>
+            <div class="dish-price">R$ 22</div>
+          </a>
+          <a href="#" class="dish">
+            <div>
+              <div class="dish-name">Burrata da casa</div>
+              <div class="dish-desc">Tomates confitados, manjericão, azeite novo</div>
+            </div>
+            <div class="dish-price">R$ 48</div>
+          </a>
+          <a href="#" class="dish">
+            <div>
+              <div class="dish-name">Berinjela na brasa</div>
+              <div class="dish-desc">Tahine, romã, hortelã</div>
+            </div>
+            <div class="dish-price">R$ 36</div>
+          </a>
+        </div>
+
+        <div class="menu-group">
+          <div class="menu-group-title">Da brasa</div>
+          <a href="#" class="dish">
+            <div>
+              <div class="dish-name">Polvo grelhado</div>
+              <div class="dish-desc">Purê de batata defumada, páprica</div>
+            </div>
+            <div class="dish-price">R$ 79</div>
+          </a>
+          <a href="#" class="dish">
+            <div>
+              <div class="dish-name">Cordeiro em brochete</div>
+              <div class="dish-desc">Iogurte de alho assado, sumagre</div>
+            </div>
+            <div class="dish-price">R$ 86</div>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <div class="menu-group">
+          <div class="menu-group-title">Massas e grãos</div>
+          <a href="#" class="dish">
+            <div>
+              <div class="dish-name">Orzo com camarão</div>
+              <div class="dish-desc">Limão siciliano, endro, manteiga tostada</div>
+            </div>
+            <div class="dish-price">R$ 68</div>
+          </a>
+          <a href="#" class="dish">
+            <div>
+              <div class="dish-name">Risoto de erva-doce</div>
+              <div class="dish-desc">Laranja, pistache, queijo de cabra</div>
+            </div>
+            <div class="dish-price">R$ 58</div>
+          </a>
+        </div>
+
+        <div class="menu-group">
+          <div class="menu-group-title">Doces</div>
+          <a href="#" class="dish">
+            <div>
+              <div class="dish-name">Bolo de azeite e laranja</div>
+              <div class="dish-desc">Creme de iogurte, mel de tomilho</div>
+            </div>
+            <div class="dish-price">R$ 32</div>
+          </a>
+          <a href="#" class="dish">
+            <div>
+              <div class="dish-name">Figos assados</div>
+              <div class="dish-desc">Sorvete de queijo mascarpone, nozes caramelizadas</div>
+            </div>
+            <div class="dish-price">R$ 34</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gallery" id="galeria">
+  <a href="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1000&auto=format&fit=crop" target="_blank" rel="noopener">
+    <img class="tall" src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1000&auto=format&fit=crop" alt="Mesa posta com pratos mediterrâneos e vinho">
+  </a>
+  <a href="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?q=80&w=800&auto=format&fit=crop" target="_blank" rel="noopener">
+    <img class="short" src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?q=80&w=800&auto=format&fit=crop" alt="Prato grelhado na brasa">
+  </a>
+  <a href="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=800&auto=format&fit=crop" target="_blank" rel="noopener">
+    <img class="short" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=800&auto=format&fit=crop" alt="Salão do restaurante ao entardecer">
+  </a>
+  <a href="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?q=80&w=800&auto=format&fit=crop" target="_blank" rel="noopener">
+    <img class="short" src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?q=80&w=800&auto=format&fit=crop" alt="Taça de vinho tinto sobre a mesa">
+  </a>
+  <a href="https://images.unsplash.com/photo-1551218808-94e220e084d2?q=80&w=800&auto=format&fit=crop" target="_blank" rel="noopener">
+    <img class="short" src="https://images.unsplash.com/photo-1551218808-94e220e084d2?q=80&w=800&auto=format&fit=crop" alt="Sobremesa com frutas assadas">
+  </a>
+</div>
+
+<section class="reserve" id="reservar">
+  <div class="wrap">
+    <div>
+      <p class="section-tag" style="color:var(--olive);">Reservas</p>
+      <h2>Guarde sua mesa para a noite</h2>
+      <p>Aceitamos reservas com até 30 dias de antecedência. Grupos acima de 8 pessoas, escreva para <a href="mailto:reservas@fico.com.br" style="color:var(--wine-deep); text-decoration:underline;">reservas@fico.com.br</a>.</p>
+    </div>
+    <form onsubmit="event.preventDefault(); this.querySelector('.submit-btn').textContent='Pedido enviado ✓';">
+      <div class="form-row">
+        <div>
+          <label for="nome">Nome</label>
+          <input id="nome" type="text" required>
+        </div>
+        <div>
+          <label for="pessoas">Pessoas</label>
+          <select id="pessoas">
+            <option>2 pessoas</option>
+            <option>3 pessoas</option>
+            <option>4 pessoas</option>
+            <option>5–8 pessoas</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div>
+          <label for="data">Data</label>
+          <input id="data" type="date" required>
+        </div>
+        <div>
+          <label for="hora">Horário</label>
+          <input id="hora" type="time" required>
+        </div>
+      </div>
+      <button type="submit" class="submit-btn">Confirmar reserva</button>
+      <p class="form-note">Você recebe a confirmação por e-mail em até 2 horas.</p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-logo">Fico</div>
+        <p><a href="https://maps.google.com/?q=Rua+dos+Figos,+214,+Vila+Madalena" target="_blank" rel="noopener">Rua dos Figos, 214<br>Vila Madalena, São Paulo</a></p>
+      </div>
+      <div>
+        <h4>Contato</h4>
+        <a href="tel:+551130405060">(11) 3040-5060</a>
+        <a href="mailto:ola@fico.com.br">ola@fico.com.br</a>
+      </div>
+      <div>
+        <h4>Horários</h4>
+        <p>Terça a sexta — 18h às 00h</p>
+        <p>Sábado e domingo — 13h às 00h</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Fico Restaurante</span>
+      <span>Feito com carinho para quem gosta de mesa farta</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  const toggle = document.getElementById('menuToggle');
+  const navList = document.getElementById('navList');
+  toggle.addEventListener('click', () => navList.classList.toggle('open'));
+  navList.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navList.classList.remove('open')));
+</script>
+
+</body>
+</html>
